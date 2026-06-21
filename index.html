@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Скай — Детская мебель</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+  <div class="loader" id="loader">
+    <div class="loader__ring"></div>
+    <p class="loader__text">загрузка.</p>
+  </div>
+
+
+  <div class="site-wrapper" id="siteWrapper">
+
+
+    <header class="header">
+      <div class="container header__inner">
+
+   
+        <a href="#" class="header__logo">
+          <span class="logo__name">Скай</span>
+        </a>
+
+
+        <nav class="header__nav" aria-label="Основная навигация">
+          <ul class="nav__list">
+            <li><a href="#shop" class="nav__link">Каталог</a></li>
+            <li><a href="#design" class="nav__link">Дизайн-проект</a></li>
+            <li><a a href="#about" class="nav__link">О нас</a></li>
+            <li><a href="#" class="nav__link">Оплата и доставка</a></li>
+            <li><a href="#footer" class="nav__link">Блог</a></li>
+          </ul>
+        </nav>
+
+   
+        <div class="header__actions">
+          <a href="tel:+78001234567" class="header__phone">8 (800) 333-01-32</a>
+          <a href="#" class="btn btn--orange btn--sm open-modal">Обратный звонок</a>
+        </div>
+
+   
+        <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+      </div>
+
+      <!-- Mobile Nav -->
+      <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+        <ul class="mobile-nav__list">
+          <li><a href="#shop" class="mobile-nav__link">Каталог</a></li>
+          <li><a href="#design" class="mobile-nav__link">Дизайн-проект</a></li>
+          <li><a href="#about" class="mobile-nav__link">О нас</a></li>
+          <li><a href="#" class="mobile-nav__link">Оплата и доставка</a></li>
+          <li><a href="#footer" class="mobile-nav__link">Блог</a></li>
+          <li><a href="tel:+78001234567" class="mobile-nav__link">8 (800) 333-01-32</a></li>
+        </ul>
+      </div>
+    </header>
+
+  
+    <section class="hero" aria-label="Главный баннер">
+      <div class="hero__slider" id="heroSlider">
+
+        <!-- Slide 1 -->
+        <article class="hero__slide hero__slide--active">
+          <div class="hero__img" style="background-image: url('images/hero-bg-composed.png');"></div>
+          <div class="hero__overlay"></div>
+          <div class="container hero__content">
+            <h1 class="hero__title">Детская мебель,<br>которая вдохновляет<br>мечтать.</h1>
+            <a href="#shop" class="btn btn--cyan hero-btn-shop">В магазин</a>
+          </div>
+        </article>
+
+        <!-- Slide 2 -->
+        <article class="hero__slide">
+          <div class="hero__img" style="background-image: url('images/slider2.png');"></div>
+          <div class="hero__overlay"></div>
+          <div class="container hero__content">
+            <h1 class="hero__title">Детская мебель,<br>которая вдохновляет<br>мечтать.</h1>
+            <a href="#shop" class="btn btn--cyan hero-btn-shop">В магазин</a>
+          </div>
+        </article>
+
+        <!-- Slide 3 -->
+        <article class="hero__slide">
+          <div class="hero__img" style="background-image: url('images/slider3.png');"></div>
+          <div class="hero__overlay"></div>
+          <div class="container hero__content">
+            <h1 class="hero__title">Детская мебель,<br>которая вдохновляет<br>мечтать.</h1>
+            <a href="#shop" class="btn btn--cyan hero-btn-shop">В магазин</a>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Slider Controls -->
+      <button class="hero__arrow hero__arrow--prev" id="heroPrev" aria-label="Предыдущий слайд">&#8249;</button>
+      <button class="hero__arrow hero__arrow--next" id="heroNext" aria-label="Следующий слайд">&#8250;</button>
+
+      <!-- Slider Dots -->
+      <div class="hero__dots" id="heroDots">
+        <button class="hero__dot hero__dot--active" aria-label="Слайд 1"></button>
+        <button class="hero__dot" aria-label="Слайд 2"></button>
+        <button class="hero__dot" aria-label="Слайд 3"></button>
+      </div>
+
+    </section>
+
+ 
+    <section class="intro">
+      <div class="container">
+        <p class="intro__text">
+          Мы создаём пространства, где детство раскрывается во всей красе: где шкафы превращаются в замки, столы — в карты далёких стран,а кровати — в облака, 
+уносящие в волшебные сны. <br>«Скай» — не просто мебель. Это старт для детских фантазий, место для открытий и пространство, где каждый день — 
+новое приключение.<br>
+        </p>
+      </div>
+    </section>
+
+   <!-- SHOP SECTION -->
+    <section class="shop" id="shop" aria-labelledby="shopTitle">
+      <div class="container">
+        <h2 class="section-title" id="shopTitle">Магазин</h2>
+        <div class="shop__grid">
+          <a href="#bestsellers" class="shop__card">
+            <img src="images/imgcard1.png" alt="Стол" class="shop__img" />
+            <span class="shop__label">Столы</span>
+          </a>
+          <a href="#bestsellers" class="shop__card">
+            <img src="images/imgcard2.png" alt="Стулья" class="shop__img" />
+            <span class="shop__label">Стулья</span>
+          </a>
+          <a href="#" class="shop__card">
+            <img src="images/imgcard3.png" alt="Кровати" class="shop__img" />
+            <span class="shop__label">Кровати</span>
+          </a>
+          <a href="#bestsellers" class="shop__card">
+            <img src="images/imgcard4.png" alt="Хранение" class="shop__img" />
+            <span class="shop__label">Хранение</span>
+          </a>
+          <a href="#bestsellers" class="shop__card shop__card--yellow">
+            <img src="images/imgcard5.png" alt="Бескаркасная мебель" class="shop__img" />
+            <span class="shop__label">Бескаркасная мебель</span>
+          </a>
+          <a href="#bestsellers" class="shop__card">
+            <img src="images/imgcard6.png" alt="Текстиль" class="shop__img" />
+            <span class="shop__label">Текстиль</span>
+          </a>
+          <a href="#bestsellers" class="shop__card">
+            <img src="images/imgcard7.png" alt="Освещение" class="shop__img" />
+            <span class="shop__label">Освещение</span>
+          </a>
+          <a href="#bestsellers" class="shop__card">
+            <img src="images/imgcard8.png" alt="Декор" class="shop__img" />
+            <span class="shop__label">Декор</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+   
+    <section class="bestsellers" id="bestsellers" aria-labelledby="bestsellersTitle">
+      <div class="container">
+        <h2 class="section-title" id="bestsellersTitle">Хиты продаж</h2>
+        <div class="products__grid">
+
+          <!-- Product Card -->
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-1.png" alt="Стол - Монтессори" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Стол — Монтессори</h3>
+              <p class="product-card__sub">комплект</p>
+              <p class="product-card__price">22 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-2.png" alt="Стул Монтессори" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Стул Монтессори</h3>
+              <p class="product-card__sub"></p>
+              <p class="product-card__price">20 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-3.png" alt="Парта Марта" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Парта Марта</h3>
+              <p class="product-card__sub"></p>
+              <p class="product-card__price">26 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-4.png" alt="Мольберт со Стулом" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Мольберт со Стулом</h3>
+              <p class="product-card__sub">Набор</p>
+              <p class="product-card__price">29 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-5.png" alt="Стол Марта" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Стол Марта</h3>
+              <p class="product-card__sub"></p>
+              <p class="product-card__price">28 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-6.png" alt="Стол Мia" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Стол Mia</h3>
+              <p class="product-card__sub"></p>
+              <p class="product-card__price">22 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-7.png" alt="Шкаф" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Шкаф</h3>
+              <p class="product-card__sub"></p>
+              <p class="product-card__price">24 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-8.png" alt="Шкаф" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Шкаф</h3>
+              <p class="product-card__sub"></p>
+              <p class="product-card__price">28 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="#" class="product-card__img-wrap">
+              <img src="images/product-9.png" alt="Кровать Нельсон" class="product-card__img" />
+            </a>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Кровать Нельсон</h3>
+              <p class="product-card__sub"></p>
+              <p class="product-card__price">32 000₽</p>
+              <a href="#" class="btn btn--cyan btn--sm product-card__btn">Заказать</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER-->
+    <section class="newsletter">
+      <div class="container newsletter__inner">
+        <p class="newsletter__text">Подпишитесь на рассылку, чтобы быть в курсе самых последних новостей</p>
+        <form class="newsletter__form" novalidate>
+          <input type="email" class="newsletter__input" placeholder="Введите email" aria-label="Ваш email" />
+          <button type="submit" class="btn btn--orange">Подписаться</button>
+        </form>
+        <label class="newsletter__check">
+          <input type="checkbox" class="newsletter__checkbox" />
+          <span class="newsletter__check-label">
+            Я даю согласие на <span style="color:#E05A1E;">получение рекламной рассылки и обработку своих данных.</span>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <!-- DESIGN PROJECT -->
+    <section class="design-project" id="design" aria-labelledby="designTitle">
+      <div class="container">
+        <h2 class="section-title" id="designTitle">Дизайн-проект</h2>
+        <p class="design-project__desc">
+          Мы верим, что детские могут быть минималистичными и современными, яркими и оригинальными. Многолетний опыт разработки мебели
+и проектирования пространств помогает нам создавать функциональные и красивые проекты.
+        </p>
+        <div class="design-project__banner">
+          <div class="design-project__content">
+            <p class="design-project__banner-text">В зависимости от вашей задачи мы предложим решение, которое подходит именно вам.</p>
+            <a href="#" class="btn btn--orange">Узнать</a>
+          </div>
+          <div class="design-project__image">
+            <img src="images/design.png" alt="Дизайн-проект" />
+          </div>
+        </div>
+    </section>
+
+    <!-- ROOM DESIGN SECTION -->
+    <section class="room-design" aria-labelledby="roomDesignTitle">
+      <div class="container">
+        <h2 class="section-title" id="roomDesignTitle">Дизайн детской комнаты</h2>
+        <p class="room-design__desc">
+          Детская — это больше, чем просто комната. Это место, где начинается детство. Это место, где дети отдыхают, играют, учатся и мечтают. В Скай мы создаём функциональные и стильные интерьеры, в которых детям нравится расти, учиться и мечтать. Мы боремся за правило «поду каждому» — от уютных и компактных детских до просторных пространств. Работая «под ключ» от идеи до физической постройки. Чистые квартиры в самом разном формате и решениям, которые подходят именно вам. Для нас важно, инициативно подходить к каждому проекту, который помогает детям чувствовать себя счастливыми и подбирать решения, которые подходят вам.
+        </p>
+
+        <div class="room-design__gallery">
+          <div class="room-design__img-wrap room-design__img-wrap--large">
+            <img src="images/img1.png" alt="Дизайн детской комнаты 1" />
+            <a href="#" class="btn btn--cyan room-design__btn" data-modal="info">Заказать проект</a>
+          </div>
+          <div class="room-design__img-wrap">
+            <img src="images/img2.png" alt="Дизайн детской комнаты 2" />
+            <a href="#" class="btn btn--cyan room-design__btn" data-modal="info">Заказать проект</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  
+    <section class="faq" aria-labelledby="faqTitle">
+      <div class="container">
+        <h2 class="section-title" id="faqTitle">Вопрос-ответ</h2>
+        <div class="faq__list">
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              Как сделать заказ?
+              <span class="faq__icon">+</span>
+            </summary>
+            <div class="faq__answer">
+              <p>Вы можете оформить заказ через наш сайт, позвонив по телефону или написав в чат. Наш менеджер свяжется с вами и поможет оформить заказ.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              Как собрать мебель?
+              <span class="faq__icon">+</span>
+            </summary>
+            <div class="faq__answer">
+              <p>Всю нашу мебель можно собрать самостоятельно с помощью инструкции. Найти инструкцию можно:
+
+                На коробе, в который упакован каждый наш предмет — на небольшой наклейке с QR-кодом, наведя на который на вашем телефоне откроется инструкция по сборке этого предмета.
+                В карточке товара на нашем сайте в разделе Каталог. При доставке по Москве и ближайшему Подмосковью вы также можете заказать услугу профессиональной сборки всех приобретенных предметов.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              Есть ли у вас сборщики в регионах?
+              <span class="faq__icon">+</span>
+            </summary>
+            <div class="faq__answer">
+              <p>Да, мы работаем с партнёрами по всей России. Уточните наличие специалистов в вашем регионе у менеджера.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              Как осуществляется оплата?
+              <span class="faq__icon">+</span>
+            </summary>
+            <div class="faq__answer">
+              <p>Мы принимаем оплату картой, наличными, а также предоставляем рассрочку и кредит.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary class="faq__question">
+              Из каких материалов изготовлена мебель?
+              <span class="faq__icon">+</span>
+            </summary>
+            <div class="faq__answer">
+              <p>Мы используем только безопасные материалы, сертифицированные для детской мебели: ЛДСП, массив дерева, МДФ и фанера.</p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL -->
+    <section class="social">
+      <div class="container social__inner">
+        <p class="social__text">Следите за нами в социальных сетях</p>
+        <div class="social__links">
+          <a href="#" class="social__link" aria-label="ВКонтакте">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12zm10.5 3.5c3.5 0 5.5-2.4 5.5-5.5h-1.5c0 2.3-1.5 4-4 4v-2l-3 2.5 3 2.5v-1.5z" fill="currentColor"/></svg>
+          </a>
+          <a href="#" class="social__link" aria-label="Одноклассники">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 13c-4 0-6 2-6 3h12c0-1-2-3-6-3z" stroke="currentColor" stroke-width="1.5"/></svg>
+          </a>
+          <a href="#" class="social__link" aria-label="Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="#" class="social__link" aria-label="YouTube">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 9l5 3-5 3V9z" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!--  ABOUT -->
+    <section class="about" id="about" aria-labelledby="aboutTitle">
+      <div class="container">
+        <h2 class="section-title" id="aboutTitle">О нас</h2>
+        <div class="about__layout">
+          <div class="about__img-block">
+            <img src="images/imageabout.png" alt="О нас - команда" class="about__img" />
+            <div class="about__img-label">
+              <p>Проектируем детскую<br>мебель более 10 лет</p>
+            </div>
+          </div>
+          <div class="about__text-block">
+            <p class="about__desc">
+              Мы верим, что детская мебель может быть функциональной и современной, яркой и оригинальной. Вкус формируется с рождения, поэтому всё, что окружает ребёнка с детства, должно соответствовать эстетическим стандартам.
+            </p>
+            <blockquote class="about__quote">
+              Наша миссия — создавать полноценную, безопасную и функциональную детскую мебель, которая поможет родителям воспитать в ребёнке чувство прекрасного с рождения и привить любовь к качественному продукту.
+            </blockquote>
+          </div>
+        </div>
+
+       
+        <div class="about__gallery">
+          <img src="images/image-f1.png" alt="Фото команды 1" />
+          <img src="images/image-f2.png" alt="Фото команды 2" />
+          <img src="images/image-f3.png" alt="Фото команды 3" />
+          <img src="images/image-f4.png" alt="Фото команды 4" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="footer">
+      <div class="container footer__inner">
+
+     
+        <div class="footer__brand">
+          <a href="#" class="footer__logo">Скай</a>
+        </div>
+
+        
+        <nav class="footer__nav" aria-label="Навигация в подвале">
+          <div class="footer__col">
+            <h3 class="footer__col-title">Каталог</h3>
+            <ul class="footer__list">
+              <li><a href="#bestsellers" class="footer__link">Столы</a></li>
+              <li><a href="#bestsellers" class="footer__link">Стулья</a></li>
+              <li><a href="#bestsellers" class="footer__link">Кровати</a></li>
+              <li><a href="#bestsellers" class="footer__link">Шкафы</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h3 class="footer__col-title">О нас</h3>
+            <ul class="footer__list">
+              <li><a href="#" class="footer__link">О компании</a></li>
+              <li><a href="#" class="footer__link">Контакты</a></li>
+              <li><a href=#footer class="footer__link">Блог</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h3 class="footer__col-title">Оплата и доставка</h3>
+          </div>
+          <div class="footer__col">
+            <h3 class="footer__col-title">Дизайн-проект</h3>
+            <ul class="footer__list">
+              <li><a href="#" class="footer__link">Детская комната</a></li>
+              <li><a href="#" class="footer__link">Портфолио</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Footer Contacts -->
+        <div class="footer__contacts">
+          <a href="tel:+78001234567" class="footer__phone">8 (800) 333-01-32</a>
+          <div class="footer__socials">
+            <a href="#" class="footer__social" aria-label="ВКонтакте">VK</a>
+            <a href="#" class="footer__social" aria-label="Instagram">IG</a>
+            <a href="#" class="footer__social" aria-label="YouTube">YT</a>
+            <a href="#" class="footer__social" aria-label="Telegram">TG</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <div class="container">
+          <p class="footer__copy">© 2026 Скай</p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Contact Form Modal -->
+  <div class="modal" id="contactModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__box">
+      <button class="modal__close" id="modalClose" aria-label="Закрыть">×</button>
+      <h3 class="modal__title" id="modalTitle">Оставьте ваши контактные данные</h3>
+      <form class="modal__form" novalidate>
+        <input type="text" class="modal__input" placeholder="Ваше имя" aria-label="Имя" />
+        <input type="tel" class="modal__input" placeholder="Ваш телефон" aria-label="Телефон" />
+        <button type="submit" class="btn btn--orange btn--full">Отправить</button>
+        <label class="newsletter__check">
+          <input type="checkbox" />
+          <span class="newsletter__check-label">Я согласен на обработку персональных данных</span>
+        </label>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно для заказа -->
+<div class="modal" id="orderModal" aria-hidden="true" role="dialog" aria-labelledby="orderModalTitle">
+  <div class="modal__backdrop" id="orderModalBackdrop"></div>
+  <div class="modal__box modal__box--order">
+    <button class="modal__close" id="orderModalClose" aria-label="Закрыть">×</button>
+    <div class="modal__product">
+      <img src="" alt="Товар" class="modal__product-image" id="orderProductImage" />
+      <div class="modal__product-info">
+        <h3 class="modal__product-name" id="orderProductName">Название товара</h3>
+        <p class="modal__product-price" id="orderProductPrice">Цена</p>
+      </div>
+    </div>
+    <h3 class="modal__title" id="orderModalTitle">Оформить заказ</h3>
+    <form class="modal__form" novalidate>
+      <input type="text" class="modal__input" placeholder="Ваше имя" aria-label="Имя" />
+      <input type="tel" class="modal__input" placeholder="Ваш телефон" aria-label="Телефон" />
+      <button type="submit" class="btn btn--orange btn--full">Отправить заявку</button>
+      <label class="modal__consent">
+        <input type="checkbox" />
+        <span class="modal__consent-text">Я согласен на обработку персональных данных</span>
+      </label>
+    </form>
+  </div>
+</div>
+
+<!-- Модальное окно для "Узнать" -->
+<div class="modal" id="infoModal" aria-hidden="true" role="dialog" aria-labelledby="infoModalTitle">
+  <div class="modal__backdrop" id="infoModalBackdrop"></div>
+  <div class="modal__box modal__box--info">
+    <button class="modal__close" id="infoModalClose" aria-label="Закрыть">×</button>
+    <h3 class="modal__title" id="infoModalTitle">Узнать подробнее</h3>
+    <p class="modal__info-text">Оставьте свои контактные данные, и мы свяжемся с вами в ближайшее время.</p>
+    <form class="modal__form" novalidate>
+      <input type="text" class="modal__input" placeholder="Ваше имя" aria-label="Имя" />
+      <input type="tel" class="modal__input" placeholder="Ваш телефон" aria-label="Телефон" />
+      <button type="submit" class="btn btn--orange btn--full">Отправить</button>
+    </form>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
