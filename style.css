@@ -207,7 +207,7 @@ details>summary {
   }
 }
 .loader__text {
-  font-size: 18px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--color-dark);
   letter-spacing: 0.02em;
