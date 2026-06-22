@@ -156,105 +156,84 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
-  // ========================================
+// ========================================
 // ВАЛИДАЦИЯ ФОРМ
 // ========================================
 
-// Функция валидации email
+document.querySelectorAll('form').forEach(form => {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let isValid = true;
+
+    // Проверяем все поля с атрибутом required
+    const requiredInputs = this.querySelectorAll('[required]');
+
+    requiredInputs.forEach(input => {
+      // Убираем старую подсветку
+      input.style.borderColor = '';
+      const existingError = input.parentElement.querySelector('.error-message');
+      if (existingError) existingError.remove();
+
+      // Проверяем, что поле не пустое
+      if (input.value.trim() === '') {
+        isValid = false;
+        input.style.borderColor = 'red';
+        showError(input, 'Заполните это поле');
+      }
+
+      // Доп. проверка для email
+      if (input.type === 'email' && input.value.trim() !== '') {
+        if (!validateEmail(input.value)) {
+          isValid = false;
+          input.style.borderColor = 'red';
+          showError(input, 'Введите корректный email');
+        }
+      }
+
+      // Доп. проверка для телефона
+      if (input.type === 'tel' && input.value.trim() !== '') {
+        if (!validatePhone(input.value)) {
+          isValid = false;
+          input.style.borderColor = 'red';
+          showError(input, 'Введите корректный номер телефона');
+        }
+      }
+    });
+
+    if (isValid) {
+      console.log('✅ Форма валидна!');
+      alert('✅ Форма успешно отправлена!');
+      this.reset();
+      // Закрываем модалку, если форма внутри неё
+      const modal = this.closest('.modal');
+      if (modal) modal.classList.remove('open');
+    } else {
+      console.log('❌ Ошибки валидации');
+    }
+  });
+});
+
+// Функция для отображения ошибки
+function showError(input, message) {
+  const error = document.createElement('span');
+  error.className = 'error-message';
+  error.style.cssText = 'color: red; font-size: 12px; margin-top: 4px; display: block;';
+  error.textContent = message;
+  input.parentElement.appendChild(error);
+}
+
+// Функция проверки email
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
 }
 
-// Функция валидации телефона (формат: +7 (XXX) XXX-XX-XX или 8XXXXXXXXXX)
+// Функция проверки телефона (10 или 11 цифр)
 function validatePhone(phone) {
-  // Убираем все пробелы, скобки, дефисы и плюсы
   const clean = phone.replace(/[\s\-\(\)\+]/g, '');
-  // Проверяем: 10 или 11 цифр (8 или 7 в начале)
   const re = /^[78]\d{10}$/;
   return re.test(clean);
-}
-
-// Назначаем обработчики на все формы
-document.querySelectorAll('form').forEach(form => {
-  form.addEventListener('submit', function(e) {
-    e.preventDefault(); // Отключаем стандартную отправку
-
-    let isValid = true;
-    const inputs = this.querySelectorAll('input');
-    const errors = [];
-
-    inputs.forEach(input => {
-      // Убираем старые сообщения об ошибках
-      const existingError = input.parentElement.querySelector('.error-message');
-      if (existingError) existingError.remove();
-      
-      // Убираем красную обводку
-      input.style.borderColor = '';
-
-      // Проверка email
-      if (input.type === 'email' && input.value.trim() !== '') {
-        if (!validateEmail(input.value)) {
-          isValid = false;
-          input.style.borderColor = 'red';
-          errors.push('Введите корректный email (например, name@domain.ru)');
-          showError(input, 'Введите корректный email');
-        }
-      }
-
-      // Проверка телефона
-      if (input.type === 'tel' && input.value.trim() !== '') {
-        if (!validatePhone(input.value)) {
-          isValid = false;
-          input.style.borderColor = 'red';
-          errors.push('Введите корректный номер телефона (например, +7 999 123-45-67)');
-          showError(input, 'Введите корректный номер телефона');
-        }
-      }
-
-      // Проверка на пустые обязательные поля
-      if (input.hasAttribute('required') && input.value.trim() === '') {
-        isValid = false;
-        input.style.borderColor = 'red';
-        errors.push('Заполните поле: ' + (input.placeholder || 'поле'));
-        showError(input, 'Заполните это поле');
-      }
-    });
-
-    if (isValid) {
-      // Если всё правильно — можно отправлять
-      console.log('✅ Форма валидна! Отправляем данные...');
-      
-      // Здесь можно отправить данные на сервер или показать сообщение
-      alert('✅ Форма успешно отправлена!');
-      
-      // Очищаем форму
-      this.reset();
-      
-      // Закрываем модальное окно, если форма внутри него
-      const modal = this.closest('.modal');
-      if (modal) {
-        modal.classList.remove('open');
-      }
-    } else {
-      // Показываем первое сообщение об ошибке
-      console.log('❌ Ошибки валидации:', errors);
-    }
-  });
-});
-
-// Функция для отображения ошибки под полем
-function showError(input, message) {
-  const error = document.createElement('span');
-  error.className = 'error-message';
-  error.style.cssText = `
-    color: red;
-    font-size: 12px;
-    margin-top: 4px;
-    display: block;
-  `;
-  error.textContent = message;
-  input.parentElement.appendChild(error);
 }
 
 // Убираем ошибку при вводе
@@ -265,11 +244,6 @@ document.querySelectorAll('input').forEach(input => {
     if (error) error.remove();
   });
 });
-
-// ========================================
-// ОСТАЛЬНЫЕ СКРИПТЫ (слайдер, бургер, модалки)
-// ========================================
-// ... ваш существующий код ...
   /* 5. NEWSLETTER FORM */
   const newsletterForm = document.querySelector('.newsletter__form');
   if (newsletterForm) {
