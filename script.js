@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* 1. LOADING SCREEN*/
-  const loader      = document.getElementById('loader');
+  const loader = document.getElementById('loader');
   const siteWrapper = document.getElementById('siteWrapper');
 
   const hideLoader = () => {
@@ -9,36 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
     siteWrapper.style.opacity = '1';
   };
 
-  // Minimum display time: 800ms
   const minTime = new Promise(res => setTimeout(res, 800));
-  const loaded  = new Promise(res => {
+  const loaded = new Promise(res => {
     if (document.readyState === 'complete') res();
     else window.addEventListener('load', res);
   });
 
   Promise.all([minTime, loaded]).then(hideLoader);
-
-  // Fade in the site
   if (siteWrapper) siteWrapper.style.opacity = '0';
 
-  /* 2. HERO SLIDER */
-  const slides     = document.querySelectorAll('.hero__slide');
-  const dots       = document.querySelectorAll('.hero__dot');
-  const prevBtn    = document.getElementById('heroPrev');
-  const nextBtn    = document.getElementById('heroNext');
-  let   currentSlide = 0;
-  let   autoplayTimer;
+  const slides = document.querySelectorAll('.hero__slide');
+  const dots = document.querySelectorAll('.hero__dot');
+  const prevBtn = document.getElementById('heroPrev');
+  const nextBtn = document.getElementById('heroNext');
+  let currentSlide = 0;
+  let autoplayTimer;
 
   if (slides.length) {
-
     const goToSlide = (index) => {
-
       slides[currentSlide].classList.remove('hero__slide--active');
       dots[currentSlide].classList.remove('hero__dot--active');
-
-    
       currentSlide = (index + slides.length) % slides.length;
-
       slides[currentSlide].classList.add('hero__slide--active');
       dots[currentSlide].classList.add('hero__dot--active');
     };
@@ -46,23 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextSlide = () => goToSlide(currentSlide + 1);
     const prevSlide = () => goToSlide(currentSlide - 1);
 
-    // Autoplay every 5s
     const startAutoplay = () => {
       stopAutoplay();
       autoplayTimer = setInterval(nextSlide, 5000);
     };
-
     const stopAutoplay = () => clearInterval(autoplayTimer);
 
     if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); startAutoplay(); });
     if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); startAutoplay(); });
 
-    // Dot clicks
     dots.forEach((dot, i) => {
       dot.addEventListener('click', () => { goToSlide(i); startAutoplay(); });
     });
 
-    // Touch/swipe support
     const sliderEl = document.getElementById('heroSlider');
     if (sliderEl) {
       let touchStartX = 0;
@@ -78,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
     }
 
-    // Pause on hover
     const heroSection = document.querySelector('.hero');
     if (heroSection) {
       heroSection.addEventListener('mouseenter', stopAutoplay);
@@ -88,8 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startAutoplay();
   }
 
-  /* 3. BURGER / MOBILE MENU */
-  const burger    = document.getElementById('burger');
+  const burger = document.getElementById('burger');
   const mobileNav = document.getElementById('mobileNav');
 
   if (burger && mobileNav) {
@@ -100,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileNav.setAttribute('aria-hidden', String(!isOpen));
     });
 
-    // Close on outside click
     document.addEventListener('click', (e) => {
       if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
         mobileNav.classList.remove('open');
@@ -110,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close on nav link click
     mobileNav.querySelectorAll('.mobile-nav__link').forEach(link => {
       link.addEventListener('click', () => {
         mobileNav.classList.remove('open');
@@ -121,9 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* 4. CONTACT MODAL*/
-  const modal         = document.getElementById('contactModal');
-  const modalClose    = document.getElementById('modalClose');
+  const modal = document.getElementById('contactModal');
+  const modalClose = document.getElementById('modalClose');
   const modalBackdrop = document.getElementById('modalBackdrop');
 
   const openModal = () => {
@@ -140,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   };
 
-  // Открытие по кнопкам "Обратный звонок" и другим с классом .open-modal
   document.querySelectorAll('.open-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -148,198 +128,208 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  if (modalClose)    modalClose.addEventListener('click', closeModal);
+  if (modalClose) modalClose.addEventListener('click', closeModal);
   if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
 
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-  });
+  const orderModal = document.getElementById('orderModal');
+  const orderModalBackdrop = document.getElementById('orderModalBackdrop');
+  const orderModalClose = document.getElementById('orderModalClose');
 
-// ВАЛИДАЦИЯ ВСЕХ ФОРМ
+  function openOrderModal(productName, productPrice, productImage) {
+    if (!orderModal) return;
+    document.getElementById('orderProductName').textContent = productName;
+    document.getElementById('orderProductPrice').textContent = productPrice;
+    document.getElementById('orderProductImage').src = productImage;
+    orderModal.classList.add('open');
+    orderModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
 
-// Функция проверки email
-function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-}
+  function closeOrderModal() {
+    if (!orderModal) return;
+    orderModal.classList.remove('open');
+    orderModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
 
-// Функция проверки телефона (10 или 11 цифр, начинается с 7 или 8)
-function validatePhone(phone) {
-  const clean = phone.replace(/[\s\-\(\)\+]/g, '');
-  const re = /^[78]\d{10}$/;
-  return re.test(clean);
-}
+  if (orderModalClose) orderModalClose.addEventListener('click', closeOrderModal);
+  if (orderModalBackdrop) orderModalBackdrop.addEventListener('click', closeOrderModal);
 
-// Функция показа ошибки под полем
-function showError(input, message) {
-  // Удаляем старую ошибку, если есть
-  const oldError = input.parentElement.querySelector('.error-message');
-  if (oldError) oldError.remove();
-
-  const error = document.createElement('span');
-  error.className = 'error-message';
-  error.style.cssText = `
-    color: red;
-    font-size: 12px;
-    margin-top: 4px;
-    display: block;
-    font-family: Arial, sans-serif;
-  `;
-  error.textContent = message;
-  input.parentElement.appendChild(error);
-}
-
-// Функция удаления всех ошибок в форме
-function clearErrors(form) {
-  form.querySelectorAll('.error-message').forEach(el => el.remove());
-  form.querySelectorAll('input').forEach(input => {
-    input.style.borderColor = '';
-  });
-}
-
-
-document.querySelectorAll('form').forEach(form => {
-  form.addEventListener('submit', function(e) {
-    e.preventDefault(); // Отключаем стандартную отправку
-
-    // Очищаем старые ошибки
-    clearErrors(this);
-
-    let isValid = true;
-    const errors = [];
-
-    // Получаем все поля ввода в этой форме
-    const inputs = this.querySelectorAll('input');
-
-    inputs.forEach(input => {
-      // Пропускаем скрытые поля и чекбоксы (их проверим отдельно)
-      if (input.type === 'hidden' || input.type === 'checkbox') return;
-
-      const value = input.value.trim();
-      const fieldName = input.placeholder || input.name || 'поле';
-
-      // === 1. Проверка на пустое поле (если есть required) ===
-      if (input.hasAttribute('required') && value === '') {
-        isValid = false;
-        input.style.borderColor = 'red';
-        showError(input, 'Заполните это поле');
-        errors.push(`${fieldName}: пустое поле`);
-        return;
-      }
-
-      // === 2. Проверка email ===
-      if (input.type === 'email' && value !== '') {
-        if (!validateEmail(value)) {
-          isValid = false;
-          input.style.borderColor = 'red';
-          showError(input, 'Введите корректный email (например, name@domain.ru)');
-          errors.push(`${fieldName}: некорректный email`);
-        }
-      }
-
-      // === 3. Проверка телефона ===
-      if (input.type === 'tel' && value !== '') {
-        if (!validatePhone(value)) {
-          isValid = false;
-          input.style.borderColor = 'red';
-          showError(input, 'Введите корректный номер телефона (например, +7 999 123-45-67)');
-          errors.push(`${fieldName}: некорректный телефон`);
-        }
-      }
+  document.querySelectorAll('.product-card__btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = this.closest('.product-card');
+      if (!card) return;
+      const name = card.querySelector('.product-card__name')?.textContent || 'Товар';
+      const price = card.querySelector('.product-card__price')?.textContent || 'Цена';
+      const img = card.querySelector('.product-card__img')?.src || '';
+      openOrderModal(name, price, img);
     });
+  });
 
-    // === 4. Проверка чекбокса согласия ===
-    const consentCheckbox = this.querySelector('input[type="checkbox"]');
-    if (consentCheckbox && consentCheckbox.hasAttribute('required') && !consentCheckbox.checked) {
-      isValid = false;
-      consentCheckbox.style.outline = '2px solid red';
-      // Показываем ошибку рядом с чекбоксом
-      const label = consentCheckbox.closest('label') || consentCheckbox.parentElement;
-      showError(consentCheckbox, 'Необходимо дать согласие на обработку данных');
-      errors.push('Согласие не дано');
+  const infoModal = document.getElementById('infoModal');
+  const infoModalBackdrop = document.getElementById('infoModalBackdrop');
+  const infoModalClose = document.getElementById('infoModalClose');
+
+  function openInfoModal() {
+    if (!infoModal) return;
+    infoModal.classList.add('open');
+    infoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeInfoModal() {
+    if (!infoModal) return;
+    infoModal.classList.remove('open');
+    infoModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (infoModalClose) infoModalClose.addEventListener('click', closeInfoModal);
+  if (infoModalBackdrop) infoModalBackdrop.addEventListener('click', closeInfoModal);
+
+  document.querySelector('.design-project__banner .btn--orange')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    openInfoModal();
+  });
+
+  document.querySelectorAll('[data-modal="info"]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openInfoModal();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      closeOrderModal();
+      closeInfoModal();
     }
+  });
 
-    // === 5. Если валидация пройдена ===
-    if (isValid) {
-      console.log('✅ Форма валидна! Отправляем данные...');
-      
-      // Собираем данные формы
-      const formData = new FormData(this);
-      const data = {};
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
-      console.log('📦 Данные формы:', data);
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
 
-      // Показываем сообщение об успехе
-      alert('✅ Форма успешно отправлена! Спасибо!');
+  function validatePhone(phone) {
+    const clean = phone.replace(/[\s\-\(\)\+]/g, '');
+    const re = /^[78]\d{10}$/;
+    return re.test(clean);
+  }
 
-      // Очищаем форму
-      this.reset();
+  function showError(input, message) {
+    const oldError = input.parentElement.querySelector('.error-message');
+    if (oldError) oldError.remove();
+
+    const error = document.createElement('span');
+    error.className = 'error-message';
+    error.style.cssText = `
+      color: red;
+      font-size: 12px;
+      margin-top: 4px;
+      display: block;
+      font-family: Arial, sans-serif;
+    `;
+    error.textContent = message;
+    input.parentElement.appendChild(error);
+  }
+
+  function clearErrors(form) {
+    form.querySelectorAll('.error-message').forEach(el => el.remove());
+    form.querySelectorAll('input').forEach(input => {
+      input.style.borderColor = '';
+    });
+  }
+
+  document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
       clearErrors(this);
 
-      // Закрываем модальное окно, если форма внутри него
-      const modal = this.closest('.modal');
-      if (modal) {
-        modal.classList.remove('open');
-      }
+      let isValid = true;
+      const errors = [];
+      const inputs = this.querySelectorAll('input');
 
-      // Здесь можно отправить данные на сервер через fetch
-      /*
-      fetch('/send.php', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(result => {
-        alert('✅ Форма отправлена!');
-        this.reset();
-      })
-      .catch(error => {
-        alert('❌ Ошибка отправки. Попробуйте позже.');
+      inputs.forEach(input => {
+        if (input.type === 'hidden' || input.type === 'checkbox') return;
+
+        const value = input.value.trim();
+        const fieldName = input.placeholder || input.name || 'поле';
+
+        if (input.hasAttribute('required') && value === '') {
+          isValid = false;
+          input.style.borderColor = 'red';
+          showError(input, 'Заполните это поле');
+          errors.push(`${fieldName}: пустое поле`);
+          return;
+        }
+
+        if (input.type === 'email' && value !== '') {
+          if (!validateEmail(value)) {
+            isValid = false;
+            input.style.borderColor = 'red';
+            showError(input, 'Введите корректный email');
+            errors.push(`${fieldName}: некорректный email`);
+          }
+        }
+
+        if (input.type === 'tel' && value !== '') {
+          if (!validatePhone(value)) {
+            isValid = false;
+            input.style.borderColor = 'red';
+            showError(input, 'Введите корректный номер телефона');
+            errors.push(`${fieldName}: некорректный телефон`);
+          }
+        }
       });
-      */
 
-    } else {
-      // Если есть ошибки — показываем их в консоли
-      console.log('❌ Ошибки валидации:', errors);
-      
-      // Прокручиваем к первому полю с ошибкой
-      const firstError = this.querySelector('[style*="border-color: red"]');
-      if (firstError) {
-        firstError.focus();
+      const consentCheckbox = this.querySelector('input[type="checkbox"]');
+      if (consentCheckbox && consentCheckbox.hasAttribute('required') && !consentCheckbox.checked) {
+        isValid = false;
+        consentCheckbox.style.outline = '2px solid red';
+        showError(consentCheckbox, 'Необходимо дать согласие');
+        errors.push('Согласие не дано');
       }
-    }
+
+      if (isValid) {
+        console.log('✅ Форма валидна!');
+        alert('✅ Форма успешно отправлена!');
+        this.reset();
+        clearErrors(this);
+
+        const modal = this.closest('.modal');
+        if (modal) {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      } else {
+        console.log('❌ Ошибки валидации:', errors);
+        const firstError = this.querySelector('[style*="border-color: red"]');
+        if (firstError) firstError.focus();
+      }
+    });
   });
-});
 
-// ========================================
-// УДАЛЕНИЕ ОШИБОК ПРИ ВВОДЕ
-// ========================================
-
-document.querySelectorAll('input').forEach(input => {
-  // При вводе текста убираем ошибку
-  input.addEventListener('input', function() {
-    this.style.borderColor = '';
-    const error = this.parentElement.querySelector('.error-message');
-    if (error) error.remove();
-  });
-
-  // При изменении чекбокса убираем ошибку
-  if (input.type === 'checkbox') {
-    input.addEventListener('change', function() {
-      this.style.outline = '';
+  document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', function() {
+      this.style.borderColor = '';
       const error = this.parentElement.querySelector('.error-message');
       if (error) error.remove();
     });
-  }
-});
 
+    if (input.type === 'checkbox') {
+      input.addEventListener('change', function() {
+        this.style.outline = '';
+        const error = this.parentElement.querySelector('.error-message');
+        if (error) error.remove();
+      });
+    }
+  });
 
-  /* ──────────────────────────────────────────────────────
-     7. SMOOTH SCROLL — anchor links
-  ────────────────────────────────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const target = document.querySelector(anchor.getAttribute('href'));
@@ -350,23 +340,15 @@ document.querySelectorAll('input').forEach(input => {
     });
   });
 
-  /* ──────────────────────────────────────────────────────
-     8. HEADER SCROLL SHADOW
-  ────────────────────────────────────────────────────── */
   const header = document.querySelector('.header');
   if (header) {
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 10) {
-        header.style.boxShadow = '0 2px 12px rgba(0,0,0,0.12)';
-      } else {
-        header.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)';
-      }
+      header.style.boxShadow = window.scrollY > 10
+        ? '0 2px 12px rgba(0,0,0,0.12)'
+        : '0 1px 4px rgba(0,0,0,0.06)';
     }, { passive: true });
   }
 
-  /* ──────────────────────────────────────────────────────
-     9. FAQ — plus/minus icon toggle
-  ────────────────────────────────────────────────────── */
   document.querySelectorAll('.faq__item').forEach(item => {
     item.addEventListener('toggle', () => {
       const icon = item.querySelector('.faq__icon');
