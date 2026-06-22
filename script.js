@@ -156,72 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
-// ========================================
-// ВАЛИДАЦИЯ ФОРМ
-// ========================================
-
-document.querySelectorAll('form').forEach(form => {
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    let isValid = true;
-
-    // Проверяем все поля с атрибутом required
-    const requiredInputs = this.querySelectorAll('[required]');
-
-    requiredInputs.forEach(input => {
-      // Убираем старую подсветку
-      input.style.borderColor = '';
-      const existingError = input.parentElement.querySelector('.error-message');
-      if (existingError) existingError.remove();
-
-      // Проверяем, что поле не пустое
-      if (input.value.trim() === '') {
-        isValid = false;
-        input.style.borderColor = 'red';
-        showError(input, 'Заполните это поле');
-      }
-
-      // Доп. проверка для email
-      if (input.type === 'email' && input.value.trim() !== '') {
-        if (!validateEmail(input.value)) {
-          isValid = false;
-          input.style.borderColor = 'red';
-          showError(input, 'Введите корректный email');
-        }
-      }
-
-      // Доп. проверка для телефона
-      if (input.type === 'tel' && input.value.trim() !== '') {
-        if (!validatePhone(input.value)) {
-          isValid = false;
-          input.style.borderColor = 'red';
-          showError(input, 'Введите корректный номер телефона');
-        }
-      }
-    });
-
-    if (isValid) {
-      console.log('✅ Форма валидна!');
-      alert('✅ Форма успешно отправлена!');
-      this.reset();
-      // Закрываем модалку, если форма внутри неё
-      const modal = this.closest('.modal');
-      if (modal) modal.classList.remove('open');
-    } else {
-      console.log('❌ Ошибки валидации');
-    }
-  });
-});
-
-// Функция для отображения ошибки
-function showError(input, message) {
-  const error = document.createElement('span');
-  error.className = 'error-message';
-  error.style.cssText = 'color: red; font-size: 12px; margin-top: 4px; display: block;';
-  error.textContent = message;
-  input.parentElement.appendChild(error);
-}
+// ВАЛИДАЦИЯ ВСЕХ ФОРМ
 
 // Функция проверки email
 function validateEmail(email) {
@@ -229,121 +164,178 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-// Функция проверки телефона (10 или 11 цифр)
+// Функция проверки телефона (10 или 11 цифр, начинается с 7 или 8)
 function validatePhone(phone) {
   const clean = phone.replace(/[\s\-\(\)\+]/g, '');
   const re = /^[78]\d{10}$/;
   return re.test(clean);
 }
 
-// Убираем ошибку при вводе
+// Функция показа ошибки под полем
+function showError(input, message) {
+  // Удаляем старую ошибку, если есть
+  const oldError = input.parentElement.querySelector('.error-message');
+  if (oldError) oldError.remove();
+
+  const error = document.createElement('span');
+  error.className = 'error-message';
+  error.style.cssText = `
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+    font-family: Arial, sans-serif;
+  `;
+  error.textContent = message;
+  input.parentElement.appendChild(error);
+}
+
+// Функция удаления всех ошибок в форме
+function clearErrors(form) {
+  form.querySelectorAll('.error-message').forEach(el => el.remove());
+  form.querySelectorAll('input').forEach(input => {
+    input.style.borderColor = '';
+  });
+}
+
+
+document.querySelectorAll('form').forEach(form => {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Отключаем стандартную отправку
+
+    // Очищаем старые ошибки
+    clearErrors(this);
+
+    let isValid = true;
+    const errors = [];
+
+    // Получаем все поля ввода в этой форме
+    const inputs = this.querySelectorAll('input');
+
+    inputs.forEach(input => {
+      // Пропускаем скрытые поля и чекбоксы (их проверим отдельно)
+      if (input.type === 'hidden' || input.type === 'checkbox') return;
+
+      const value = input.value.trim();
+      const fieldName = input.placeholder || input.name || 'поле';
+
+      // === 1. Проверка на пустое поле (если есть required) ===
+      if (input.hasAttribute('required') && value === '') {
+        isValid = false;
+        input.style.borderColor = 'red';
+        showError(input, 'Заполните это поле');
+        errors.push(`${fieldName}: пустое поле`);
+        return;
+      }
+
+      // === 2. Проверка email ===
+      if (input.type === 'email' && value !== '') {
+        if (!validateEmail(value)) {
+          isValid = false;
+          input.style.borderColor = 'red';
+          showError(input, 'Введите корректный email (например, name@domain.ru)');
+          errors.push(`${fieldName}: некорректный email`);
+        }
+      }
+
+      // === 3. Проверка телефона ===
+      if (input.type === 'tel' && value !== '') {
+        if (!validatePhone(value)) {
+          isValid = false;
+          input.style.borderColor = 'red';
+          showError(input, 'Введите корректный номер телефона (например, +7 999 123-45-67)');
+          errors.push(`${fieldName}: некорректный телефон`);
+        }
+      }
+    });
+
+    // === 4. Проверка чекбокса согласия ===
+    const consentCheckbox = this.querySelector('input[type="checkbox"]');
+    if (consentCheckbox && consentCheckbox.hasAttribute('required') && !consentCheckbox.checked) {
+      isValid = false;
+      consentCheckbox.style.outline = '2px solid red';
+      // Показываем ошибку рядом с чекбоксом
+      const label = consentCheckbox.closest('label') || consentCheckbox.parentElement;
+      showError(consentCheckbox, 'Необходимо дать согласие на обработку данных');
+      errors.push('Согласие не дано');
+    }
+
+    // === 5. Если валидация пройдена ===
+    if (isValid) {
+      console.log('✅ Форма валидна! Отправляем данные...');
+      
+      // Собираем данные формы
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      console.log('📦 Данные формы:', data);
+
+      // Показываем сообщение об успехе
+      alert('✅ Форма успешно отправлена! Спасибо!');
+
+      // Очищаем форму
+      this.reset();
+      clearErrors(this);
+
+      // Закрываем модальное окно, если форма внутри него
+      const modal = this.closest('.modal');
+      if (modal) {
+        modal.classList.remove('open');
+      }
+
+      // Здесь можно отправить данные на сервер через fetch
+      /*
+      fetch('/send.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(result => {
+        alert('✅ Форма отправлена!');
+        this.reset();
+      })
+      .catch(error => {
+        alert('❌ Ошибка отправки. Попробуйте позже.');
+      });
+      */
+
+    } else {
+      // Если есть ошибки — показываем их в консоли
+      console.log('❌ Ошибки валидации:', errors);
+      
+      // Прокручиваем к первому полю с ошибкой
+      const firstError = this.querySelector('[style*="border-color: red"]');
+      if (firstError) {
+        firstError.focus();
+      }
+    }
+  });
+});
+
+// ========================================
+// УДАЛЕНИЕ ОШИБОК ПРИ ВВОДЕ
+// ========================================
+
 document.querySelectorAll('input').forEach(input => {
+  // При вводе текста убираем ошибку
   input.addEventListener('input', function() {
     this.style.borderColor = '';
     const error = this.parentElement.querySelector('.error-message');
     if (error) error.remove();
   });
-});
-  /* 5. NEWSLETTER FORM */
-  const newsletterForm = document.querySelector('.newsletter__form');
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const input = newsletterForm.querySelector('input[type="email"]');
-      if (input && input.value.includes('@')) {
-        // Simple success feedback
-        const btn = newsletterForm.querySelector('.btn');
-        const original = btn.textContent;
-        btn.textContent = 'Готово!';
-        btn.style.backgroundColor = '#4CAF50';
-        setTimeout(() => {
-          btn.textContent = original;
-          btn.style.backgroundColor = '';
-          input.value = '';
-        }, 3000);
-      }
+
+  // При изменении чекбокса убираем ошибку
+  if (input.type === 'checkbox') {
+    input.addEventListener('change', function() {
+      this.style.outline = '';
+      const error = this.parentElement.querySelector('.error-message');
+      if (error) error.remove();
     });
   }
-
-  /* 6. MODAL FORM SUBMIT*/
-  const modalForm = document.querySelector('.modal__form');
-  if (modalForm) {
-    modalForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = modalForm.querySelector('.btn');
-      const original = btn.textContent;
-      btn.textContent = 'Отправлено!';
-      btn.style.backgroundColor = '#4CAF50';
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.style.backgroundColor = '';
-        closeModal();
-      }, 2000);
-    });
-  }
-
-  // Модальное окно для заказа
-const orderModal = document.getElementById('orderModal');
-const orderModalBackdrop = document.getElementById('orderModalBackdrop');
-const orderModalClose = document.getElementById('orderModalClose');
-
-// Функция открытия модального окна заказа
-function openOrderModal(productName, productPrice, productImage) {
-  document.getElementById('orderProductName').textContent = productName;
-  document.getElementById('orderProductPrice').textContent = productPrice;
-  document.getElementById('orderProductImage').src = productImage;
-  orderModal.classList.add('open');
-}
-
-// Закрытие модального окна заказа
-function closeOrderModal() {
-  orderModal.classList.remove('open');
-}
-
-orderModalBackdrop.addEventListener('click', closeOrderModal);
-orderModalClose.addEventListener('click', closeOrderModal);
-
-// Назначаем кнопкам "Заказать"
-document.querySelectorAll('.product-card__btn').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    const card = this.closest('.product-card');
-    const name = card.querySelector('.product-card__name').textContent;
-    const price = card.querySelector('.product-card__price').textContent;
-    const img = card.querySelector('.product-card__img').src;
-    openOrderModal(name, price, img);
-  });
 });
 
-// Модальное окно "Узнать"
-const infoModal = document.getElementById('infoModal');
-const infoModalBackdrop = document.getElementById('infoModalBackdrop');
-const infoModalClose = document.getElementById('infoModalClose');
-
-function openInfoModal() {
-  infoModal.classList.add('open');
-}
-
-function closeInfoModal() {
-  infoModal.classList.remove('open');
-}
-
-infoModalBackdrop.addEventListener('click', closeInfoModal);
-infoModalClose.addEventListener('click', closeInfoModal);
-
-// Назначаем кнопке "Узнать"
-document.querySelector('.design-project__banner .btn--orange').addEventListener('click', function(e) {
-  e.preventDefault();
-  openInfoModal();
-});
-
-// Все кнопки, которые открывают модалку "Узнать"
-document.querySelectorAll('[data-modal="info"]').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    openInfoModal();
-  });
-});
 
   /* ──────────────────────────────────────────────────────
      7. SMOOTH SCROLL — anchor links
